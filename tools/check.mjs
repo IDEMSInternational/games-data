@@ -76,4 +76,5 @@ if (errors.length) {
   for (const error of errors) console.error(`  - ${error}`);
   process.exit(1);
 }
-console.log(`announcements.json is fine (${data.announcements.length} announcements).`);
+const count = data.announcements.length;
+console.log(`announcements.json is fine (${count} announcement${count === 1 ? '' : 's'}).`);
