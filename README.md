@@ -5,8 +5,9 @@ from their code, published on GitHub Pages:
 
     https://idemsinternational.github.io/games-data/announcements.json
     https://idemsinternational.github.io/games-data/privacy.html
+    https://idemsinternational.github.io/games-data/support.html
 
-The apps download the first, and the app stores link to the second.
+The apps download the first, and the app stores link to the other two.
 Installed apps and store listings keep these addresses, so don't rename
 the files or the repository.
 
@@ -65,6 +66,13 @@ changes, with games-common-core cloned beside this repository, run
     node tools/privacy.mjs
 
 and commit the new `privacy.html`.
+
+## Support page
+
+`support.html` is the support page for the app stores: how to contact us
+and a few common questions. It is written by hand (styled like
+`privacy.html`), so edit it directly; keep its answers in step with the
+apps.
 
 ## Checking
 
