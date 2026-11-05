@@ -29,7 +29,7 @@ players within about a day of being committed.
       "title": "New game: Slant",
       "text": "Draw diagonal lines in a grid so that every clue is touched by the right number of lines.",
       "links": {
-        "android": "https://play.google.com/store/apps/details?id=international.idems.slant",
+        "android": "https://play.google.com/store/apps/details?id=idems.games.slant",
         "ios": "https://apps.apple.com/app/id0000000000"
       }
     }
