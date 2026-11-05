@@ -1,12 +1,14 @@
 # IDEMS Games data
 
 Data for the IDEMS Games puzzle apps (Rectangles, Slant, ...), kept apart
-from their code. The apps download it from GitHub Pages:
+from their code, published on GitHub Pages:
 
     https://idemsinternational.github.io/games-data/announcements.json
+    https://idemsinternational.github.io/games-data/privacy.html
 
-Every game uses this address, and installed apps keep it, so don't rename
-the file or the repository.
+The apps download the first, and the app stores link to the second.
+Installed apps and store listings keep these addresses, so don't rename
+the files or the repository.
 
 ## Announcements
 
@@ -47,6 +49,22 @@ players within about a day of being committed.
 
 The newest announcements show first. To take one down early, set its
 `until` to yesterday, or delete it.
+
+The first entry is the test announcement from November 2026, kept (past its
+`until`, so it no longer shows) as a template: copy it, then give the copy
+a new `id` and dates.
+
+## Privacy Policy
+
+`privacy.html` is the public copy of the apps' Privacy Policy, for the
+app stores. It is made from `PRIVACY.md` in
+[games-common-core](https://github.com/IDEMSInternational/games-common-core),
+the same text the apps show, so don't edit it by hand: after the policy
+changes, with games-common-core cloned beside this repository, run
+
+    node tools/privacy.mjs
+
+and commit the new `privacy.html`.
 
 ## Checking
 
