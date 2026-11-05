@@ -1,0 +1,78 @@
+<!doctype html>
+<!-- Rectangles' page: the link at the end of every message shared from the
+     game. Phones go straight on to the game in their own store; anything
+     else (or a phone whose store doesn't have it yet) sees this page. -->
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rectangles · IDEMS Games</title>
+<meta name="description" content="Rectangles, a puzzle game by IDEMS International.">
+<script>
+  // The game in the stores. Fill each in once the game is there (see the
+  // README); while one is empty, that store shows as "coming soon".
+  const STORES = {
+    android: '', // https://play.google.com/store/apps/details?id=idems.games.rectangles
+    ios: '', // https://apps.apple.com/app/id…
+  };
+
+  const agent = navigator.userAgent;
+  const phone = /Android/i.test(agent)
+    ? 'android'
+    : /iPhone|iPad|iPod/.test(agent) || (/Macintosh/.test(agent) && navigator.maxTouchPoints > 1)
+      ? 'ios'
+      : null;
+  if (phone && STORES[phone]) location.replace(STORES[phone]);
+</script>
+<style>
+  /* The apps' orange, darkened on white so links are easy to read. */
+  :root { color-scheme: light dark; --brand: light-dark(#b4510f, #f37021); }
+  body { margin: 0 auto; max-width: 40rem; padding: 2rem 1rem 3rem; font: 1.05rem/1.6 system-ui, sans-serif; text-align: center; }
+  .icon { width: 96px; height: 96px; border-radius: 22px; box-shadow: 0 1px 4px rgb(0 0 0 / 0.2); }
+  h1 { margin: 1rem 0 0; }
+  h1 + p { color: GrayText; margin-top: 0; }
+  .stores { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; margin: 2rem 0; }
+  .store { display: inline-block; min-width: 14rem; padding: 0.7rem 1.2rem; border-radius: 999px;
+    background: var(--brand); color: white; font-weight: 600; text-decoration: none; }
+  .soon { color: GrayText; }
+  footer { margin-top: 3rem; font-size: 0.95rem; }
+  a { color: var(--brand); }
+</style>
+</head>
+<body>
+<img class="icon" src="icon.png" alt="">
+<h1>Rectangles</h1>
+<p>A puzzle game by IDEMS International</p>
+<p>Divide the grid into rectangles so that each one holds exactly one number, and that number is
+its area. A new daily puzzle every day, challenges against the clock, and free play at the size you choose.</p>
+
+<div class="stores" id="stores"></div>
+
+<footer><a href="../support.html">Support</a> · <a href="../privacy.html">Privacy Policy</a></footer>
+
+<script>
+  const NAMES = { android: ['Get it on Google Play', 'Google Play'], ios: ['Download on the App Store', 'the App Store'] };
+  const list = document.getElementById('stores');
+  // On a phone, only its own store; elsewhere, both.
+  const shown = phone ? [phone] : ['android', 'ios'];
+  const soon = [];
+  for (const store of shown) {
+    if (STORES[store]) {
+      const link = document.createElement('a');
+      link.className = 'store';
+      link.href = STORES[store];
+      link.textContent = NAMES[store][0];
+      list.append(link);
+    } else {
+      soon.push(NAMES[store][1]);
+    }
+  }
+  if (soon.length) {
+    const note = document.createElement('p');
+    note.className = 'soon';
+    note.textContent = `Coming soon to ${soon.join(' and ')}.`;
+    list.append(note);
+  }
+</script>
+</body>
+</html>

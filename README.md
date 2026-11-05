@@ -6,8 +6,11 @@ from their code, published on GitHub Pages:
     https://idemsinternational.github.io/games-data/announcements.json
     https://idemsinternational.github.io/games-data/privacy.html
     https://idemsinternational.github.io/games-data/support.html
+    https://idemsinternational.github.io/games-data/rectangles/
 
-The apps download the first, and the app stores link to the other two.
+The apps download the first, the app stores link to the privacy and support
+pages, and every message shared from a game ends with a link to that game's
+page.
 Installed apps and store listings keep these addresses, so don't rename
 the files or the repository.
 
@@ -66,6 +69,29 @@ changes, with games-common-core cloned beside this repository, run
     node tools/privacy.mjs
 
 and commit the new `privacy.html`.
+
+## Game pages
+
+Each game has a folder (`rectangles/`, named by the game's id) with an
+`index.html` and its `icon.png`. Messages shared from the game link there,
+not to a store, because the friend may have another kind of phone and
+because the link has to work before the game is in the stores.
+
+A phone opening the page goes straight on to the game in its own store; a
+computer sees both store buttons. While a store doesn't have the game, the
+page says "Coming soon" for it. **When a game goes live in a store**, put
+its address into `STORES` near the top of that game's `index.html`:
+
+```js
+const STORES = {
+  android: 'https://play.google.com/store/apps/details?id=idems.games.rectangles',
+  ios: 'https://apps.apple.com/app/id123456789',
+};
+```
+
+Nothing changes in the app, and links shared before launch start working
+too. For a new game, copy a folder, rename it to the game's id, and change
+the name, description and icon (the game's `assets/app/icon-only.png`).
 
 ## Support page
 
