@@ -1,6 +1,6 @@
 # IDEMS Games data
 
-Data for the IDEMS Games puzzle apps (Rectangles, Slant, ...), kept apart
+Data for the IDEMS Games puzzle apps (Rectangles, Slanted, ...), kept apart
 from their code, published on GitHub Pages:
 
     https://idemsinternational.github.io/games-data/announcements.json
@@ -30,7 +30,7 @@ players within about a day of being committed.
       "date": "2026-12-01",
       "until": "2027-01-31",
       "about": "slant",
-      "title": "New game: Slant",
+      "title": "New game: Slanted",
       "text": "Draw diagonal lines in a grid so that every clue is touched by the right number of lines.",
       "links": {
         "android": "https://play.google.com/store/apps/details?id=international.idems.games.slant",
