@@ -33,7 +33,7 @@ players within about a day of being committed.
       "title": "New game: Slant",
       "text": "Draw diagonal lines in a grid so that every clue is touched by the right number of lines.",
       "links": {
-        "android": "https://play.google.com/store/apps/details?id=idems.games.slant",
+        "android": "https://play.google.com/store/apps/details?id=international.idems.games.slant",
         "ios": "https://apps.apple.com/app/id0000000000"
       }
     }
@@ -84,7 +84,7 @@ its address into `STORES` near the top of that game's `index.html`:
 
 ```js
 const STORES = {
-  android: 'https://play.google.com/store/apps/details?id=idems.games.rectangles',
+  android: 'https://play.google.com/store/apps/details?id=international.idems.games.rectangles',
   ios: 'https://apps.apple.com/app/id123456789',
 };
 ```
