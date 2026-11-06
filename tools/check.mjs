@@ -38,7 +38,7 @@ if (typeof data !== 'object' || data === null || !Array.isArray(data.announcemen
       if (!FIELDS.includes(key)) fail(where, `unknown field "${key}" (allowed: ${FIELDS.join(', ')})`);
     }
     if (typeof item.id !== 'string' || !SLUG.test(item.id)) {
-      fail(where, '"id" must be lower-case letters, digits and dashes, e.g. "slant-launch"');
+      fail(where, '"id" must be lower-case letters, digits and dashes, e.g. "slanted-launch"');
     } else if (ids.has(item.id)) {
       fail(where, `"id" is used twice: each announcement needs its own`);
     } else {
@@ -50,7 +50,7 @@ if (typeof data !== 'object' || data === null || !Array.isArray(data.announcemen
       else if (isDate(item.date) && item.until < item.date) fail(where, '"until" is before "date"');
     }
     if (item.about !== undefined && (typeof item.about !== 'string' || !SLUG.test(item.about))) {
-      fail(where, '"about" must be a game\'s id, e.g. "slant"');
+      fail(where, '"about" must be a game\'s id, e.g. "slanted"');
     }
     if (typeof item.title !== 'string' || !item.title.trim()) fail(where, '"title" is missing');
     else if (item.title.length > 60) fail(where, `"title" is ${item.title.length} characters: keep it to 60`);
