@@ -1,12 +1,14 @@
 # IDEMS Games data
 
-Data for the IDEMS Games puzzle apps (Rectangles, Slant, ...), kept apart
+Data for the IDEMS Games puzzle apps (Rectangles, Slanted, Light Up, ...), kept apart
 from their code, published on GitHub Pages:
 
     https://idemsinternational.github.io/games-data/announcements.json
     https://idemsinternational.github.io/games-data/privacy.html
     https://idemsinternational.github.io/games-data/support.html
     https://idemsinternational.github.io/games-data/rectangles/
+    https://idemsinternational.github.io/games-data/slanted/
+    https://idemsinternational.github.io/games-data/lightup/
 
 The apps download the first, the app stores link to the privacy and support
 pages, and every message shared from a game ends with a link to that game's
@@ -26,14 +28,14 @@ players within about a day of being committed.
 {
   "announcements": [
     {
-      "id": "slant-launch",
+      "id": "slanted-launch",
       "date": "2026-12-01",
       "until": "2027-01-31",
-      "about": "slant",
-      "title": "New game: Slant",
+      "about": "slanted",
+      "title": "New game: Slanted",
       "text": "Draw diagonal lines in a grid so that every clue is touched by the right number of lines.",
       "links": {
-        "android": "https://play.google.com/store/apps/details?id=international.idems.games.slant",
+        "android": "https://play.google.com/store/apps/details?id=international.idems.games.slanted",
         "ios": "https://apps.apple.com/app/id0000000000"
       }
     }
@@ -46,7 +48,7 @@ players within about a day of being committed.
 | `id` | required | A name for this announcement, unique, in lower-case letters, digits and dashes. The apps remember which ids each player has seen, so never reuse one. |
 | `date` | required | `YYYY-MM-DD`. The announcement shows from this day (in the player's time zone). Set it in the future to prepare one in advance. |
 | `until` | optional | `YYYY-MM-DD`, the last day it shows. Without it, it shows for good. About two months suits a new game. |
-| `about` | optional | The id of the game it announces (`rectangles`, `slant`, ...): that game doesn't show it, as its players already have it. |
+| `about` | optional | The id of the game it announces (`rectangles`, `slanted`, `lightup`, ...): that game doesn't show it, as its players already have it. |
 | `title` | required | Up to 60 characters. |
 | `text` | required | Up to 300 characters, plain text. |
 | `links` | optional | Store pages, `android` and `ios`, each a full `https://` address. The app shows a button to the one for the player's phone. |
@@ -72,7 +74,7 @@ and commit the new `privacy.html`.
 
 ## Game pages
 
-Each game has a folder (`rectangles/`, named by the game's id) with an
+Each game has a folder (`rectangles/`, `slanted/`, `lightup/`, named by the game's id) with an
 `index.html` and its `icon.png`. Messages shared from the game link there,
 not to a store, because the friend may have another kind of phone and
 because the link has to work before the game is in the stores.
