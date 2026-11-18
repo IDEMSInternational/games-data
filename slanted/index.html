@@ -1,22 +1,15 @@
 <!doctype html>
 <!-- Slanted's page: the link at the end of every message shared from the
      game. Phones go straight on to the game in their own store; anything
-     else (or a phone whose store doesn't have it yet) sees this page. What
-     every game's page does and looks like is in ../game-page.js and .css. -->
+     else (or a phone whose store doesn't have it yet) sees this page. Its
+     store addresses are in ../games.json; what every game's page does and
+     looks like is in ../game-page.js and .css. -->
 <html lang="en-GB">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Slanted · IDEMS Games</title>
 <meta name="description" content="Slanted, a puzzle game by IDEMS International.">
-<script>
-  // The game in the stores. Fill each in once the game is there (see the
-  // README); while one is empty, that store shows as "coming soon".
-  const STORES = {
-    android: '', // https://play.google.com/store/apps/details?id=international.idems.games.slanted
-    ios: '', // https://apps.apple.com/app/id…
-  };
-</script>
 <script src="../game-page.js"></script>
 <link rel="stylesheet" href="../game-page.css">
 </head>

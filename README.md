@@ -4,13 +4,14 @@ Data for the IDEMS Games puzzle apps (Rectangles, Slanted, Light Up, ...), kept 
 from their code, published on GitHub Pages:
 
     https://idemsinternational.github.io/games-data/announcements.json
+    https://idemsinternational.github.io/games-data/games.json
     https://idemsinternational.github.io/games-data/privacy.html
     https://idemsinternational.github.io/games-data/support.html
     https://idemsinternational.github.io/games-data/rectangles/
     https://idemsinternational.github.io/games-data/slanted/
     https://idemsinternational.github.io/games-data/lightup/
 
-The apps download the first, the app stores link to the privacy and support
+The apps download the first two, the app stores link to the privacy and support
 pages, and every message shared from a game ends with a link to that game's
 page.
 Installed apps and store listings keep these addresses, so don't rename
@@ -72,6 +73,56 @@ changes, with games-common-core cloned beside this repository, run
 
 and commit the new `privacy.html`.
 
+## Games
+
+`games.json` lists every IDEMS game. The apps show it on the ☰ menu's
+**Other IDEMS Games** page (each app leaves itself out), with each game's
+icon from its folder here, and the game pages read their store addresses
+from it. The apps check for a new list when they open, at most once a day,
+so a new game reaches players within about a day of being committed,
+without a new release of any app.
+
+```json
+{
+  "games": [
+    {
+      "id": "slanted",
+      "name": "Slanted",
+      "summary": "Draw a diagonal in every square, touching each number that many times, without loops.",
+      "stores": { "android": "", "ios": "" }
+    }
+  ]
+}
+```
+
+| Field | What it's for |
+|---|---|
+| `id` | The game's id (`rectangles`, `slanted`, `lightup`, ...), which is also its folder here. |
+| `name` | The game's name, up to 30 characters. |
+| `summary` | One line about the puzzle for the apps' list, up to 100 characters. |
+| `stores` | The game's address in Google Play (`android`) and the App Store (`ios`), each empty until the game is there. |
+
+The apps list the games in this order. In an app, tapping a game opens it in
+that phone's store once its address is here, and otherwise its page (which
+says "Coming soon").
+
+**When a game goes live in a store**, put its address into its `stores`:
+
+```json
+"stores": {
+  "android": "https://play.google.com/store/apps/details?id=international.idems.games.slanted",
+  "ios": "https://apps.apple.com/app/id123456789"
+}
+```
+
+From then on the apps send players to the store, and so does the game's
+page, including links shared before launch. Nothing changes in the apps.
+
+Each app also carries a copy of this list from when it was built
+(`src/container/games.json` in games-common-core), used until its first
+download. When a game is added here, update that copy too, so the apps
+released next include it.
+
 ## Game pages
 
 Each game has a folder (`rectangles/`, `slanted/`, `lightup/`, named by the game's id) with an
@@ -79,28 +130,20 @@ Each game has a folder (`rectangles/`, `slanted/`, `lightup/`, named by the game
 not to a store, because the friend may have another kind of phone and
 because the link has to work before the game is in the stores.
 
-A game's `index.html` holds only what is its own: its name, a sentence
-about the puzzle, and its store addresses. What every game page does and
-looks like is shared, in `game-page.js` and `game-page.css` at the top of
-this repository, so a change there reaches every game's page.
+A game's `index.html` holds only what is its own: its name and a sentence
+about the puzzle. Its store addresses come from `games.json`, and what
+every game page does and looks like is shared, in `game-page.js` and
+`game-page.css` at the top of this repository, so a change there reaches
+every game's page.
 
 A phone opening the page goes straight on to the game in its own store; a
 computer sees both store buttons. While a store doesn't have the game, the
-page says "Coming soon" for it. **When a game goes live in a store**, put
-its address into `STORES` near the top of that game's `index.html`:
+page says "Coming soon" for it.
 
-```js
-const STORES = {
-  android: 'https://play.google.com/store/apps/details?id=international.idems.games.rectangles',
-  ios: 'https://apps.apple.com/app/id123456789',
-};
-```
-
-Nothing changes in the app, and links shared before launch start working
-too. For a new game, copy a folder, rename it to the game's id, and change
-the name (in the comment, `<title>`, description and `<h1>`), the sentence
-about the puzzle, the store address in the comment, and the icon (the
-game's `assets/app/icon-only.png`).
+**For a new game**, add it to `games.json`, then copy a folder, rename it to
+the game's id, and change the name (in the comment, `<title>`, description
+and `<h1>`), the sentence about the puzzle, and the icon (the game's
+`assets/app/icon-only.png`).
 
 ## Support page
 
@@ -113,8 +156,9 @@ apps.
 
 Every commit is checked automatically (the "Check the data" action): a
 mistake such as a missing field or a badly written date in an
-announcement, or a game page without its icon or with a store address that
-isn't a web address, fails the check, and GitHub shows why. To check
+announcement, a game in `games.json` without a page or with a store
+address that isn't a web address, or a game page without its icon, fails
+the check, and GitHub shows why. To check
 before committing:
 
     node tools/check.mjs
