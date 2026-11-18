@@ -79,6 +79,11 @@ Each game has a folder (`rectangles/`, `slanted/`, `lightup/`, named by the game
 not to a store, because the friend may have another kind of phone and
 because the link has to work before the game is in the stores.
 
+A game's `index.html` holds only what is its own: its name, a sentence
+about the puzzle, and its store addresses. What every game page does and
+looks like is shared, in `game-page.js` and `game-page.css` at the top of
+this repository, so a change there reaches every game's page.
+
 A phone opening the page goes straight on to the game in its own store; a
 computer sees both store buttons. While a store doesn't have the game, the
 page says "Coming soon" for it. **When a game goes live in a store**, put
@@ -93,7 +98,9 @@ const STORES = {
 
 Nothing changes in the app, and links shared before launch start working
 too. For a new game, copy a folder, rename it to the game's id, and change
-the name, description and icon (the game's `assets/app/icon-only.png`).
+the name (in the comment, `<title>`, description and `<h1>`), the sentence
+about the puzzle, the store address in the comment, and the icon (the
+game's `assets/app/icon-only.png`).
 
 ## Support page
 
@@ -105,8 +112,10 @@ apps.
 ## Checking
 
 Every commit is checked automatically (the "Check the data" action): a
-mistake such as a missing field or a badly written date fails the check,
-and GitHub shows why. To check before committing:
+mistake such as a missing field or a badly written date in an
+announcement, or a game page without its icon or with a store address that
+isn't a web address, fails the check, and GitHub shows why. To check
+before committing:
 
     node tools/check.mjs
 
