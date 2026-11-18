@@ -1,8 +1,8 @@
-// Checks announcements.json and the game pages before they go live: run
-// `node tools/check.mjs`. The games skip anything they can't read, so a
-// mistake in an announcement would make it silently disappear, and a game
-// page with a mistake would greet the friends players share it with; this
-// catches both on every commit instead.
+// Checks announcements.json, games.json and the game pages before they go
+// live: run `node tools/check.mjs`. The apps skip anything they can't read,
+// so a mistake in an announcement or a game would make it silently
+// disappear from them, and a game page with a mistake would greet the
+// friends players share it with; this catches them on every commit instead.
 
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
@@ -79,11 +79,53 @@ if (typeof data !== 'object' || data === null || !Array.isArray(data.announcemen
   });
 }
 
-// The game pages: each uses the shared page, and has an icon, a name and
-// store addresses that are either empty ("coming soon") or web addresses.
+// games.json: the list of IDEMS Games the apps show, and each game's store
+// addresses, empty until it's in that store.
+const GAME_FIELDS = ['id', 'name', 'summary', 'stores'];
+let listed = [];
+try {
+  const list = JSON.parse(readFileSync(new URL('games.json', root), 'utf8'));
+  if (!Array.isArray(list?.games)) fail('games.json', 'must be { "games": [ ... ] }');
+  else listed = list.games;
+} catch (error) {
+  fail('games.json', `isn't valid JSON: ${error.message}`);
+}
+const ids = new Set();
+listed.forEach((game, i) => {
+  const where = `games.json, game ${i + 1}${game && typeof game.id === 'string' ? ` ("${game.id}")` : ''}`;
+  if (typeof game !== 'object' || game === null || Array.isArray(game)) return fail(where, 'must be an object');
+  for (const key of Object.keys(game)) {
+    if (!GAME_FIELDS.includes(key)) fail(where, `unknown field "${key}" (allowed: ${GAME_FIELDS.join(', ')})`);
+  }
+  if (typeof game.id !== 'string' || !SLUG.test(game.id)) fail(where, '"id" must be the game\'s id, e.g. "slanted"');
+  else if (ids.has(game.id)) fail(where, '"id" is listed twice');
+  else {
+    ids.add(game.id);
+    if (!games.includes(game.id)) fail(where, `there's no page for it: add a ${game.id}/ folder (see the README)`);
+  }
+  if (typeof game.name !== 'string' || !game.name.trim()) fail(where, '"name" is missing');
+  else if (game.name.length > 30) fail(where, `"name" is ${game.name.length} characters: keep it to 30`);
+  if (typeof game.summary !== 'string' || !game.summary.trim()) fail(where, '"summary" is missing');
+  else if (game.summary.length > 100) fail(where, `"summary" is ${game.summary.length} characters: keep it to 100`);
+  if (typeof game.stores !== 'object' || game.stores === null || Array.isArray(game.stores)) {
+    fail(where, '"stores" must be { "android": "", "ios": "" }, with each address once the game is there');
+  } else {
+    for (const store of PLATFORMS) {
+      const url = game.stores[store];
+      if (typeof url !== 'string') fail(where, `"stores" needs "${store}": "" (or the game's address once it's there)`);
+      else if (url && !url.startsWith('https://')) fail(where, `the ${store} store address must start https://`);
+    }
+    for (const store of Object.keys(game.stores)) {
+      if (!PLATFORMS.includes(store)) fail(where, `unknown store "${store}" (allowed: android, ios)`);
+    }
+  }
+});
+
+// The game pages: each is in games.json, uses the shared page, and has an icon and a name.
 for (const game of games) {
   const where = `${game}/index.html`;
   if (!SLUG.test(game)) fail(where, 'the folder must be named by the game\'s id, e.g. "slanted"');
+  if (!ids.has(game) && listed.length) fail(where, `${game} isn't in games.json`);
   if (!existsSync(new URL(`${game}/icon.png`, root))) fail(where, `${game}/icon.png is missing`);
   const page = readFileSync(new URL(where, root), 'utf8');
   for (const shared of ['../game-page.js', '../game-page.css']) {
@@ -91,18 +133,6 @@ for (const game of games) {
   }
   if (!/<title>[^<]+ · IDEMS Games<\/title>/.test(page)) fail(where, 'needs a <title> such as "Slanted · IDEMS Games"');
   if (!/<h1>[^<]+<\/h1>/.test(page)) fail(where, 'needs the game\'s name in an <h1>');
-  const stores = /const STORES = \{([^}]*)\}/.exec(page);
-  if (!stores) {
-    fail(where, 'needs STORES, the game\'s store addresses (see the README)');
-  } else {
-    for (const store of PLATFORMS) {
-      const value = new RegExp(`${store}: '([^']*)'`).exec(stores[1]);
-      if (!value) fail(where, `STORES needs ${store}: '' (or the game's address once it's there)`);
-      else if (value[1] && !value[1].startsWith('https://')) {
-        fail(where, `the ${store} store address must start https://`);
-      }
-    }
-  }
 }
 
 if (errors.length) {
@@ -112,4 +142,4 @@ if (errors.length) {
 }
 const count = data.announcements.length;
 console.log(`announcements.json is fine (${count} announcement${count === 1 ? '' : 's'}).`);
-console.log(`The game pages are fine (${games.join(', ')}).`);
+console.log(`games.json and the game pages are fine (${games.join(', ')}).`);
