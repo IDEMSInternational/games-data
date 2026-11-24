@@ -125,7 +125,7 @@ released next include it.
 
 ## Game pages
 
-Each game has a folder (`rectangles/`, `slanted/`, `lightup/`, named by the game's id) with an
+Each game has a folder (`rectangles/`, `slanted/`, `lightup/`, `unruly/`, named by the game's id) with an
 `index.html` and its `icon.png`. Messages shared from the game link there,
 not to a store, because the friend may have another kind of phone and
 because the link has to work before the game is in the stores.
